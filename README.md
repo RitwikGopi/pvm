@@ -12,3 +12,4 @@ op code table for VM\n
 99	!=\n
 89	if\n
 88	while\n
+
