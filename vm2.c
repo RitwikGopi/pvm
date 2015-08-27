@@ -96,6 +96,35 @@ void mul(){
 	 push(c);
 }
 
+void comp(int op){
+	 int a,b,c;
+	 a = pop();
+	 b = pop();
+	 //printf("%d + %d = %d",a,b,c);
+	 switch(op){
+		 case 0:
+			 c = (b < a);
+			 break;
+		 case 1:
+			 c = (b <= a);
+			 break;
+		 case 2:
+			 c = (b == a);
+			 break;
+		 case 3:
+			 c = (b != a);
+			 break;
+		 case 4:
+			 c = (b > a);
+			 break;
+		 case 5:
+			 c = (b >= a);
+			 break;
+	 }
+	 push(c);
+}
+
+
 main(){
 	get_op();
 	get_const();
@@ -137,6 +166,10 @@ main(){
 			break;
 		case 0x14:
 			mul();
+			break;
+		case 0x6b:
+			comp(op[li++]);
+			li++;
 			break;
 		default :
 			printf("UNKNOWN %x\n",op[li]);
