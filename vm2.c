@@ -59,6 +59,43 @@ void add(){
         //printf("%d + %d = %d",a,b,c);
 	push(c);
 }
+
+void sub(){
+	 int a,b,c;
+	 a = pop();
+	 b = pop();
+	 c = b - a;
+	 //printf("%d + %d = %d",a,b,c);
+	 push(c);
+}
+
+void div(){
+	 int a,b,c;
+	 a = pop();
+	 b = pop();
+	 c = b / a;
+	 //printf("%d + %d = %d",a,b,c);
+	 push(c);
+}
+
+void mod(){
+	 int a,b,c;
+	 a = pop();
+	 b = pop();
+	 c = b % a;
+	 //printf("%d + %d = %d",a,b,c);
+	 push(c);
+}
+
+void mul(){
+	 int a,b,c;
+	 a = pop();
+	 b = pop();
+	 c = a * b;
+	 //printf("%d + %d = %d",a,b,c);
+	 push(c);
+}
+
 main(){
 	get_op();
 	get_const();
@@ -88,6 +125,18 @@ main(){
 			break;
 		case 0x17:
 			add();
+			break;
+		case 0x18:
+			sub();
+			break;
+		case 0x16:
+			mod();
+			break;
+		case 0x15:
+			div();
+			break;
+		case 0x14:
+			mul();
 			break;
 		default :
 			printf("UNKNOWN %x\n",op[li]);
