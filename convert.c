@@ -1,14 +1,19 @@
 #include <stdio.h>
 
 main(){
-	char c;
+	char c, i = 0;
 	while((c = getchar()) != 0x64);
-	printf("%x\n",c);
+	printf("%d : %x\n",i++,c);
 	while((c = getchar()) != 0x53)
-		printf("%x\n",c);
-	printf("%x\n\nCONSTANTS\n",c);
+		printf("%d : %x\n",i++,c);
+	printf("%d : %x\n\nCONSTANTS\n",i++,c);
+	i = 0;
 	while((c = getchar()) !=EOF){
-		if( c == 0x69)
-			printf("%x\n",c=getchar());
+		if( c == 0x69){
+			int t1,t2;
+			t1 = getchar();
+			t2 = getchar();
+			printf("%d : %x\n",i,t1+t2*256);
+		}
 	}
 }

@@ -15,11 +15,14 @@ void get_op(){
 
 void get_const(){
 	char c;
+	int t1,t2,t3;
 	while((c = getchar()) !=EOF){
 		if( c == 0x69){
-			c=getchar();
-			cons[j++] = c;//printf("%x\n",c);
-			cons[j] = c;
+			t1 = getchar();
+			t2 = getchar();
+			t3 = t2 * 256 + t1;
+			cons[j++] = t3;//printf("%x\n",c);
+			cons[j] = t3;
 		}
 	}
 }
@@ -124,11 +127,22 @@ void comp(int op){
 	 push(c);
 }
 
+int jump_f(int b1,int b2, int y){
+	int r = pop();
+	if(r!=1)
+		return(b2 * 256 + b1);
+	else
+		return(y + 2);
+}
+
+int jump_fwd(int x, int y, int z){
+	return(z + y * 256 + x);
+}
 
 main(){
 	get_op();
 	get_const();
-	int li = 0, lj = 0;
+	int li = 0, lj = 0, t1 , t2;
 	/*for(li;li<j;li++)
 		printf("%x\n",cons[li]);
 	li=0;*/
@@ -136,15 +150,17 @@ main(){
 	while(li < i){
 		switch ( op[li++] ){
 		case 0x64:
-			load_cons(op[li++]);
-			li++;
+			t1 = op[li++];
+			t2 = op[li++];
+			load_cons(t2 * 256 + t1);
 			break;
 		case 0x5a:
 			li+=2;
 			break;
 		case 0x65:
-			load_name(op[li++]);
-			li++;
+			t1 = op[li++];
+			t2 = op[li++];
+			load_name(t2 * 256 + t1);
 			break;
 		case 0x47:
 			print_item();
@@ -171,8 +187,14 @@ main(){
 			comp(op[li++]);
 			li++;
 			break;
+		case 0x72:
+			li = jump_f(op[li],op[li+1],li);
+			break;
+		case 0x6e:
+			li = jump_fwd(op[li],op[li+1],li+2);
+			break;
 		default :
-			printf("UNKNOWN %x\n",op[li]);
+			printf("%d\t: UNKNOWN %x\n",li-1,op[li-1]);
 		}
 	}
 }
