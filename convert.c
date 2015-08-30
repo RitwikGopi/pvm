@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 main(){
-	char c, i = 0;
+	int c, i = 0;
 	while((c = getchar()) != 0x64);
 	printf("%d : %x\n",i++,c);
 	while((c = getchar()) != 0x53)

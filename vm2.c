@@ -4,7 +4,7 @@ int stack[1000],sp=0;
 int op[1000], i = 0, cons[100], j = 0;
 
 void get_op(){
-	char c;
+	int c;
 	while((c = getchar()) != 0x64);
 	//printf("%x\n",c);
 	op[i++] = c;
@@ -15,14 +15,16 @@ void get_op(){
 
 void get_const(){
 	char c;
-	int t1,t2,t3;
+	int t1,t2,t3,t4,t5;
 	while((c = getchar()) !=EOF){
 		if( c == 0x69){
 			t1 = getchar();
 			t2 = getchar();
-			t3 = t2 * 256 + t1;
-			cons[j++] = t3;//printf("%x\n",c);
-			cons[j] = t3;
+			t3 = getchar();
+			t4 = getchar();
+			t5 =(t4 << (3 * 8)) | (t3 << (2 * 8)) | (t2 << 8) | t1;
+			cons[j++] = t5;//printf("%x\n",c);
+			cons[j] = t5;
 		}
 	}
 }
@@ -44,6 +46,11 @@ void load_cons( int op1){
 void load_name( int op1){ 
 	//printf("LOAD_NAME:");
 	push(stack[op1]);
+}
+
+void store_name(int x){
+	stack[x] = pop();
+	sp++;
 }
 
 void print_item(){
@@ -139,6 +146,10 @@ int jump_fwd(int x, int y, int z){
 	return(z + y * 256 + x);
 }
 
+int jump_absolute(int x){
+	return x;
+}
+
 main(){
 	get_op();
 	get_const();
@@ -155,7 +166,9 @@ main(){
 			load_cons(t2 * 256 + t1);
 			break;
 		case 0x5a:
-			li+=2;
+			t1 = op[li++];
+			t2 = op[li++];
+			store_name(t2 * 256 + t1);
 			break;
 		case 0x65:
 			t1 = op[li++];
@@ -192,6 +205,14 @@ main(){
 			break;
 		case 0x6e:
 			li = jump_fwd(op[li],op[li+1],li+2);
+			break;
+		case 0x78:
+			li += 2;
+			break;
+		case 0x71:
+			li = jump_absolute(op[li] | ( op[li+1] << 8));
+			break;
+		case 0x57:
 			break;
 		default :
 			printf("%d\t: UNKNOWN %x\n",li-1,op[li-1]);
