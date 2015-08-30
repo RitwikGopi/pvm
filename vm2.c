@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-int stack[1000],sp=0;
-int op[1000], i = 0, cons[100], j = 0;
+int stack[1000000],sp=0;
+int op[10000], i = 0, cons[100], j = 0;
 
 void get_op(){
 	int c;
